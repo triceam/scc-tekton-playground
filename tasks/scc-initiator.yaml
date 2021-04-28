@@ -9,6 +9,8 @@ metadata:
   
 spec:
   params:
+    - name: tools-image
+      default: quay.io/ibmgaragecloud/ibmcloud-dev:v2.0.4
     - name: location
       description: Endpoint location for the SCC api.  Values are "us" or "eu".
       default: "us"
@@ -28,7 +30,7 @@ spec:
 
   steps:
     - name: scc-initiator
-      image: quay.io/ibmgaragecloud/alpine-git
+      image: $(params.tools-image)
       command: ["/bin/sh", "-c"]
       args:
         - |
@@ -45,7 +47,7 @@ spec:
 
           env
 
-          curl 
+          curl \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
             -H 'Content-type: application/json'   \
