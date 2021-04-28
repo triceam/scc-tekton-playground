@@ -13,20 +13,15 @@ spec:
       default: quay.io/ibmgaragecloud/ibmcloud-dev:v2.0.4
     - name: location
       description: Endpoint location for the SCC api.  Values are "us" or "eu".
-      default: "us"
 
     - name: account_id
       description: IBM Cloud account ID.
-      default: "us"
     - name: scope_id
       description: The unique ID of the scope.
-      default: "scope"
     - name: profile_id
       description: The unique ID of the profile.
-      default: "profile"
     - name: group_profile_id
       description: The ID of the profile group.
-      default: "group profile"
 
   steps:
     - name: scc-initiator
@@ -37,13 +32,14 @@ spec:
           #!/bin/sh
           
           echo "SCC HERE WE GO!"
+          ibmcloud login --apikey $(params.apikey)
 
           LOCATION="$(params.location)"
           ACCOUNT_ID="$(params.account_id)"
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
           GROUP_PROFILE_ID="$(params.group_profile_id)"
-          IAM_TOKEN="ABC"
+          IAM_TOKEN=$(ibmcloud iam oauth-tokens --output JSON | jq ".iam_token" -r)
 
           echo "LOCATION: ${LOCATION}"
           echo "ACCOUNT_ID: ${ACCOUNT_ID}"
@@ -52,7 +48,7 @@ spec:
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
 
-          printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"
+          printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
@@ -63,7 +59,7 @@ spec:
               "group_profile_id": "${GROUP_PROFILE_ID}" 
             }')
 
-          printf "\nSTATUS: ${STATUS}"
+          printf "\nSTATUS: ${STATUS}\n"
           jq '.' response.txt   
           if [ $STATUS != "200" ]; then
             #if not http 200, fail the pipeline
