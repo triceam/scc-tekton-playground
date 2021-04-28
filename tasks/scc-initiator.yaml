@@ -22,6 +22,8 @@ spec:
       description: The unique ID of the profile.
     - name: group_profile_id
       description: The ID of the profile group.
+    - name: apikey
+      description: IBM Cloud API Key.
 
   steps:
     - name: scc-initiator
