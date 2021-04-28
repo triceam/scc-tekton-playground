@@ -3,10 +3,33 @@ apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
   name: scc-initiator
+  annotations:
+    description: Initiate an SCC scan based on https://test.cloud.ibm.com/apidocs/security-compliance/posture
+    app.openshift.io/description: Initiate an SCC scan based on https://test.cloud.ibm.com/apidocs/security-compliance/posture
+  
 spec:
   params:
-    - name: repository
-      description: the git repo url
+    - name: location
+      description: Endpoint location for the SCC api.  Values are "us" or "eu".
+      default: "us"
+
+    - name: account_id
+      description: IBM Cloud account ID.
+      default: "us"
+    - name: scope_id
+      description: The unique ID of the scope.
+      default: "us"
+    - name: profile_id
+      description: The unique ID of the profile.
+      default: "us"
+    - name: group_profile_id
+      description: The ID of the profile group.
+      default: "us"
+
+      
+      scope_id
+      profile_id
+      group_profile_id
 
   steps:
     - name: scc-initiator
@@ -17,4 +40,23 @@ spec:
           #!/bin/sh
           
           echo "SCC HERE WE GO!"
+
+          LOCATION="$(params.location)"
+          ACCOUNT_ID="$(params.account_id)"
+          SCOPE_ID="$(params.scope_id)"
+          PROFILE_ID="$(params.profile_id)"
+          GROUP_PROFILE_ID="$(params.group_profile_id)"
+          IAM_TOKEN="ABC"
+
+          env
+
+          curl 
+            -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
+            -H 'Authorization: Bearer ${IAM_TOKEN}'   \
+            -H 'Content-type: application/json'   \
+            -d '{
+              "scope_id": "${SCOPE_ID}", 
+              "profile_id": "${PROFILE_ID}", 
+              "group_profile_id": "${GROUP_PROFILE_ID}" 
+            }'
   
