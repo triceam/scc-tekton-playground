@@ -18,18 +18,13 @@ spec:
       default: "us"
     - name: scope_id
       description: The unique ID of the scope.
-      default: "us"
+      default: "scope"
     - name: profile_id
       description: The unique ID of the profile.
-      default: "us"
+      default: "profile"
     - name: group_profile_id
       description: The ID of the profile group.
-      default: "us"
-
-      
-      scope_id
-      profile_id
-      group_profile_id
+      default: "group profile"
 
   steps:
     - name: scc-initiator
