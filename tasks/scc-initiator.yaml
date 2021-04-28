@@ -52,7 +52,7 @@ spec:
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
 
-          echo "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"
+          printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
@@ -63,9 +63,9 @@ spec:
               "group_profile_id": "${GROUP_PROFILE_ID}" 
             }')
 
-          echo "\nSTATUS: ${STATUS}"
-          cat response.txt   
-          if [ $status != "200" ]; then
+          printf "\nSTATUS: ${STATUS}"
+          jq '.' response.txt   
+          if [ $STATUS != "200" ]; then
             #if not http 200, fail the pipeline
             exit 1
           else
