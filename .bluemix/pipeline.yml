@@ -1,0 +1,20 @@
+properties:
+  - type: secure
+    name: apikey
+    value: ${API_KEY}
+  - type: string
+    name: repository
+    value: ${REPOSITORY}
+triggers:
+  - type: manual
+    name: Manual Trigger - 0
+    eventListener: manual-trigger-listener
+inputs:
+  - type: git
+    path: .tekton
+    branch: main
+    service: ${scc-tekton-playground}
+  - type: git
+    path: tasks
+    branch: main
+    service: ${scc-tekton-playground}

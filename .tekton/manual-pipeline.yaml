@@ -1,0 +1,18 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: ci-pipeline
+spec:
+  params:
+    - name: repository
+      description: the git repo
+
+  tasks:
+
+    - name: scc-initiator
+      taskRef:
+        name: scc-initiator
+      params:
+        - name: repository
+          value: $(params.repository)

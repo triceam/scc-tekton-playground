@@ -1,0 +1,20 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: scc-initiator
+spec:
+  params:
+    - name: repository
+      description: the git repo url
+
+  steps:
+    - name: scc-initiator
+      image: quay.io/ibmgaragecloud/alpine-git
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          #!/bin/sh
+          
+          echo "SCC HERE WE GO!"
+  
