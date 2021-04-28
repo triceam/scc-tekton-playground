@@ -36,7 +36,7 @@ spec:
           #!/bin/sh
           
           echo "SCC HERE WE GO!"
-          ibmcloud login --apikey $(params.apikey)
+          ibmcloud login --apikey $(params.apikey) -r "us-south"
 
           LOCATION="$(params.location)"
           ACCOUNT_ID="$(params.account_id)"
