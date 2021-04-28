@@ -45,6 +45,13 @@ spec:
           GROUP_PROFILE_ID="$(params.group_profile_id)"
           IAM_TOKEN="ABC"
 
+          echo "LOCATION: ${LOCATION}"
+          echo "ACCOUNT_ID: ${ACCOUNT_ID}"
+          echo "SCOPE_ID: ${SCOPE_ID}"
+          echo "PROFILE_ID: ${PROFILE_ID}"
+          echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
+          echo "IAM_TOKEN: ${IAM_TOKEN}"
+
 
           curl -v \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
