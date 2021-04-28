@@ -51,7 +51,7 @@ spec:
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
           GROUP_PROFILE_ID="$(params.group_profile_id)"
-          IAM_TOKEN=$(cat token.txt | jq ".iam_token" -r)
+          IAM_TOKEN=$(jq ".iam_token" -r token.txt)
 
           echo "LOCATION: ${LOCATION}"
           echo "ACCOUNT_ID: ${ACCOUNT_ID}"
