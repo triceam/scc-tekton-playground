@@ -52,7 +52,7 @@ spec:
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
 
-          echo "Initiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"
+          echo "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
