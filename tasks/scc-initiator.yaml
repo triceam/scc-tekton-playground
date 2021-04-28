@@ -36,6 +36,9 @@ spec:
           #!/bin/sh
           
           echo "SCC HERE WE GO!"
+          echo "apikey $(params.apikey)"
+
+
           curl -o token.txt -X POST \
             "https://iam.cloud.ibm.com/identity/token" \
             --header 'Content-Type: application/x-www-form-urlencoded' \
