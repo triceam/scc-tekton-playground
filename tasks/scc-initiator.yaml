@@ -20,8 +20,10 @@ spec:
       description: The unique ID of the scope.
     - name: profile_id
       description: The unique ID of the profile.
+      default: ""
     - name: group_profile_id
       description: The ID of the profile group.
+      default: ""
     - name: apikey
       description: IBM Cloud API Key.
 
