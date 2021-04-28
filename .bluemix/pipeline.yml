@@ -3,8 +3,20 @@ properties:
     name: apikey
     value: ${API_KEY}
   - type: string
-    name: repository
-    value: ${REPOSITORY}
+    name: location
+    value: "us"
+  - type: string
+    name: account_id
+    value: "account_id"
+  - type: string
+    name: scope_id
+    value: "scope_id"
+  - type: string
+    name: profile_id
+    value: "profile_id"
+  - type: string
+    name: group_profile_id
+    value: "group_profile_id"
 triggers:
   - type: manual
     name: Manual Trigger - 0
