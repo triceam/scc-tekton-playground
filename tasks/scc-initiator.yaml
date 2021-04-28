@@ -53,7 +53,7 @@ spec:
           echo "IAM_TOKEN: ${IAM_TOKEN}"
 
 
-          status=$(curl -s -o response.txt -w "%{http_code}" \
+          status=$(curl -o response.txt -w "%{http_code}" \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
             -H 'Content-type: application/json'   \
