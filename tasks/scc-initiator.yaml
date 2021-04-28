@@ -51,7 +51,7 @@ spec:
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
           GROUP_PROFILE_ID="$(params.group_profile_id)"
-          IAM_TOKEN=$(jq ".iam_token" -r token.txt)
+          IAM_TOKEN=$(jq ".access_token" -r token.txt)
 
           echo "LOCATION: ${LOCATION}"
           echo "ACCOUNT_ID: ${ACCOUNT_ID}"
@@ -63,7 +63,7 @@ spec:
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
-            -H 'Authorization: ${IAM_TOKEN}'   \
+            -H 'Authorization: Bearer ${IAM_TOKEN}'   \
             -H 'Content-type: application/json'   \
             -d '{
               "scope_id": "${SCOPE_ID}", 
