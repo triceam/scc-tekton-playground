@@ -45,9 +45,8 @@ spec:
           GROUP_PROFILE_ID="$(params.group_profile_id)"
           IAM_TOKEN="ABC"
 
-          env
 
-          curl \
+          curl -v \
             -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
             -H 'Content-type: application/json'   \
