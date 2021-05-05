@@ -46,6 +46,11 @@ spec:
             --data-urlencode 'grant_type=urn:ibm:params:oauth:grant-type:apikey' \
             --data-urlencode 'apikey=$(params.apikey)'
 
+
+          echo "TOKEN:"
+          cat token.txt
+
+
           LOCATION="$(params.location)"
           ACCOUNT_ID="$(params.account_id)"
           SCOPE_ID="$(params.scope_id)"
@@ -62,7 +67,7 @@ spec:
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           curl -v \
-            -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
+            POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H 'Authorization: Bearer ${IAM_TOKEN}'   \
             -H 'Content-type: application/json'   \
             -d '{
@@ -73,15 +78,15 @@ spec:
 
           exit 0
 
-          STATUS=$(curl -s -o response.txt -w "%{http_code}" \
-            -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
-            -H 'Authorization: Bearer ${IAM_TOKEN}'   \
-            -H 'Content-type: application/json'   \
-            -d '{
-              "scope_id": "${SCOPE_ID}", 
-              "profile_id": "${PROFILE_ID}", 
-              "group_profile_id": "${GROUP_PROFILE_ID}" 
-            }')
+          # STATUS=$(curl -s -o response.txt -w "%{http_code}" \
+          #   -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
+          #   -H 'Authorization: Bearer ${IAM_TOKEN}'   \
+          #   -H 'Content-type: application/json'   \
+          #   -d '{
+          #     "scope_id": "${SCOPE_ID}", 
+          #     "profile_id": "${PROFILE_ID}", 
+          #     "group_profile_id": "${GROUP_PROFILE_ID}" 
+          #   }')
 
           printf "\nSTATUS: ${STATUS}\n"
           jq '.' response.txt   
