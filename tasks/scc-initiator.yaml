@@ -71,7 +71,7 @@ spec:
             -H 'Content-type: application/json'   \
             -d '{
               "scope_id": "${SCOPE_ID}", 
-              "profile_id": "${PROFILE_ID}"
+              "group_profile_id": "${GROUP_PROFILE_ID}" 
             }'
 
           exit 0
