@@ -54,7 +54,7 @@ spec:
 
           printf "\n\n"
 
-          LOCATION="eu"
+          LOCATION="$(params.location)"
           ACCOUNT_ID="$(params.account_id)"
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
