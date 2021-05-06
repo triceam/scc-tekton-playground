@@ -52,8 +52,9 @@ spec:
           echo "TOKEN:"
           cat token.txt
 
+          printf "\n\n"
 
-          LOCATION="$(params.location)"
+          LOCATION="eu"
           ACCOUNT_ID="$(params.account_id)"
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
