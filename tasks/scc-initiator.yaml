@@ -63,13 +63,6 @@ spec:
           echo "SCOPE_ID: ${SCOPE_ID}"
           echo "PROFILE_ID: ${PROFILE_ID}"
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
-          echo "IAM_TOKEN: ${IAM_TOKEN}"
-
-          echo "'{"
-          echo "    \"scope_id\": \"${SCOPE_ID}\", "
-          echo "    \"profile_id\": \"${PROFILE_ID}\", "
-          echo "    \"group_profile_id\": \"${GROUP_PROFILE_ID}\" "
-          echo "  }'"
 
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
@@ -86,20 +79,20 @@ spec:
           exit 0
 
 
-          # STATUS=$(curl -s -o response.txt -w "%{http_code}" \
-          #   -X POST  "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
-          #   -H 'Authorization: Bearer ${IAM_TOKEN}'   \
-          #   -H 'Content-type: application/json'   \
-          #   -d '{
-          #     "scope_id": "${SCOPE_ID}", 
-          #     "profile_id": "${PROFILE_ID}", 
-          #     "group_profile_id": "${GROUP_PROFILE_ID}" 
-          #   }')
+          STATUS=$(curl -s -o response.txt -w "%{http_code}" \
+            -X POST "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
+            -H "Authorization: Bearer ${IAM_TOKEN}"   \
+            -H 'Content-type: application/json'   \
+            -d "{
+              \"scope_id\": \"${SCOPE_ID}\", 
+              \"profile_id\": \"${PROFILE_ID}\", 
+              \"group_profile_id\": \"${GROUP_PROFILE_ID}\" 
+            }")
 
           printf "\nSTATUS: ${STATUS}\n"
           jq '.' response.txt   
-          if [ $STATUS != "200" ]; then
-            #if not http 200, fail the pipeline
+          if [ $STATUS != "202" ]; then
+            #if not http 202, fail the pipeline
             exit 1
           else
             exit 0
