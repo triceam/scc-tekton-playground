@@ -45,6 +45,8 @@ spec:
             --header 'Accept: application/json' \
             --data-urlencode 'grant_type=urn:ibm:params:oauth:grant-type:apikey' \
             --data-urlencode 'apikey=$(params.apikey)'
+        
+          
 
 
           echo "TOKEN:"
@@ -64,6 +66,11 @@ spec:
           echo "PROFILE_ID: ${PROFILE_ID}"
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
+
+          printf "\nTesting iam with a call to ghost... \n"
+          curl -v -X GET -H "Authorization: Bearer ${IAM_TOKEN}" -H "Accept: application/json" "https://api.global-search-tagging.cloud.ibm.com/v2/resources/supported_types"
+
+          exit 0;
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           curl -v \
