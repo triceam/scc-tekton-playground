@@ -66,19 +66,7 @@ spec:
 
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
-          curl -v \
-            -X POST "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
-            -H "Authorization: Bearer ${IAM_TOKEN}"   \
-            -H 'Content-type: application/json'   \
-            -d "{
-              \"scope_id\": \"${SCOPE_ID}\", 
-              \"profile_id\": \"${PROFILE_ID}\", 
-              \"group_profile_id\": \"${GROUP_PROFILE_ID}\" 
-            }"
-
-          exit 0
-
-
+          
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -X POST "https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}"   \
             -H "Authorization: Bearer ${IAM_TOKEN}"   \
