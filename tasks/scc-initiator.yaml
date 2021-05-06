@@ -33,7 +33,7 @@ spec:
           #!/bin/sh
 
           # Get access token for subsequent requests
-          curl -o token.txt -X POST \
+          curl -s -o token.txt -X POST \
             "https://iam.cloud.ibm.com/identity/token" \
             --header 'Content-Type: application/x-www-form-urlencoded' \
             --header 'Accept: application/json' \
@@ -44,7 +44,7 @@ spec:
 
           
           # Get account id using the api key
-          curl -o details.txt \
+          curl -s -o details.txt \
             "https://iam.cloud.ibm.com/v1/apikeys/details" \
             -H "Authorization: Bearer ${IAM_TOKEN}"   \
             -H 'IAM-Apikey: $(params.apikey)' \
@@ -65,6 +65,11 @@ spec:
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
 
+          echo "'{"
+          echo "    \"scope_id\": \"${SCOPE_ID}\", "
+          echo "    \"profile_id\": \"${PROFILE_ID}\", "
+          echo "    \"group_profile_id\": \"${GROUP_PROFILE_ID}\" "
+          echo "  }'"
 
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
