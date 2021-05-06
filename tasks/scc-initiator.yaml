@@ -70,7 +70,7 @@ spec:
           printf "\nTesting iam with a call to ghost... \n"
           curl -v -X GET -H "Authorization: Bearer ${IAM_TOKEN}" -H "Accept: application/json" "https://api.global-search-tagging.cloud.ibm.com/v2/resources/supported_types"
 
-          exit 0;
+          printf "\n\n"
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           curl -v \
