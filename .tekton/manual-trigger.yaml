@@ -7,8 +7,6 @@ spec:
   params:
     - name: location
       description: Endpoint location for the SCC api.  Values are "us" or "eu".
-    - name: account_id
-      description: IBM Cloud account ID.
     - name: scope_id
       description: The unique ID of the scope.
     - name: profile_id
@@ -50,8 +48,6 @@ spec:
         params:
           - name: location
             value: $(params.location)
-          - name: account_id
-            value: $(params.account_id)
           - name: scope_id
             value: $(params.scope_id)
           - name: profile_id
