@@ -13,9 +13,6 @@ spec:
       default: quay.io/ibmgaragecloud/ibmcloud-dev:v2.0.4
     - name: location
       description: Endpoint location for the SCC api.  Values are "us" or "eu".
-
-    - name: account_id
-      description: IBM Cloud account ID.
     - name: scope_id
       description: The unique ID of the scope.
     - name: profile_id
@@ -34,27 +31,32 @@ spec:
       args:
         - |
           #!/bin/sh
-          
-          echo "SCC HERE WE GO!"
-          echo "apikey $(params.apikey)"
 
-
+          # Get access token for subsequent requests
           curl -o token.txt -X POST \
             "https://iam.cloud.ibm.com/identity/token" \
             --header 'Content-Type: application/x-www-form-urlencoded' \
             --header 'Accept: application/json' \
             --data-urlencode 'grant_type=urn:ibm:params:oauth:grant-type:apikey' \
             --data-urlencode 'apikey=$(params.apikey)'
-        
+
+          IAM_TOKEN=$(jq ".access_token" -r token.txt)
+
           
+          # Get account id using the api key
+          curl -o details.txt \
+            "https://iam.cloud.ibm.com/v1/apikeys/details" \
+            -H "Authorization: Bearer ${IAM_TOKEN}"   \
+            -H 'IAM-Apikey: $(params.apikey)' \
+            -H 'Content-Type: application/json'
+
+          ACCOUNT_ID=$(jq ".account_id" -r token.txt)
 
 
           LOCATION="$(params.location)"
-          ACCOUNT_ID="$(params.account_id)"
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
           GROUP_PROFILE_ID="$(params.group_profile_id)"
-          IAM_TOKEN=$(jq ".access_token" -r token.txt)
 
           echo "LOCATION: ${LOCATION}"
           echo "ACCOUNT_ID: ${ACCOUNT_ID}"
@@ -62,6 +64,7 @@ spec:
           echo "PROFILE_ID: ${PROFILE_ID}"
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
+
 
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"

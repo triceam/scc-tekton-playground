@@ -6,9 +6,6 @@ properties:
     name: location
     value: "us"
   - type: string
-    name: account_id
-    value: "account_id"
-  - type: string
     name: scope_id
     value: "scope_id"
   - type: string
