@@ -50,7 +50,7 @@ spec:
             -H 'IAM-Apikey: $(params.apikey)' \
             -H 'Content-Type: application/json'
 
-          ACCOUNT_ID=$(jq ".account_id" -r token.txt)
+          ACCOUNT_ID=$(jq ".account_id" -r details.txt)
 
 
           LOCATION="$(params.location)"
