@@ -49,11 +49,6 @@ spec:
           
 
 
-          echo "TOKEN:"
-          cat token.txt
-
-          printf "\n\n"
-
           LOCATION="$(params.location)"
           ACCOUNT_ID="$(params.account_id)"
           SCOPE_ID="$(params.scope_id)"
@@ -68,10 +63,6 @@ spec:
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
           echo "IAM_TOKEN: ${IAM_TOKEN}"
 
-          printf "\nTesting iam with a call to ghost... \n"
-          curl -v -X GET -H "Authorization: Bearer ${IAM_TOKEN}" -H "Accept: application/json" "https://api.global-search-tagging.cloud.ibm.com/v2/resources/supported_types"
-
-          printf "\n\n"
 
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           curl -v \
@@ -80,8 +71,7 @@ spec:
             -H 'Content-type: application/json'   \
             -d '{
               "scope_id": "${SCOPE_ID}", 
-              "profile_id": "${PROFILE_ID}", 
-              "group_profile_id": "${GROUP_PROFILE_ID}" 
+              "profile_id": "${PROFILE_ID}"
             }'
 
           exit 0
