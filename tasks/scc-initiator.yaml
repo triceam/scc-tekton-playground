@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: ibm-scc-scan
+  name: scc-initiator
   annotations:
     description: Initiate an IBM Cloud security and compliance validation scan based on https://cloud.ibm.com/apidocs/security-compliance/posture
     app.openshift.io/description: Initiate an IBM Cloud security and compliance validation scan based on https://cloud.ibm.com/apidocs/security-compliance/posture
