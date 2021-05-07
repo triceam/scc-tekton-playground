@@ -1,18 +1,20 @@
----
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: scc-initiator
+  name: ibm-scc-scan
   annotations:
-    description: Initiate an SCC scan based on https://test.cloud.ibm.com/apidocs/security-compliance/posture
-    app.openshift.io/description: Initiate an SCC scan based on https://test.cloud.ibm.com/apidocs/security-compliance/posture
-  
+    description: Initiate an IBM Cloud security and compliance validation scan based on https://cloud.ibm.com/apidocs/security-compliance/posture
+    app.openshift.io/description: Initiate an IBM Cloud security and compliance validation scan based on https://cloud.ibm.com/apidocs/security-compliance/posture
+    app.openshift.io/vcs-uri: https://github.com/IBM/ibm-garage-tekton-tasks
+    app.openshift.io/vcs-ref: master
+  labels:
+    version: 0.0.0
 spec:
   params:
     - name: tools-image
       default: quay.io/ibmgaragecloud/ibmcloud-dev:v2.0.4
     - name: location
-      description: Endpoint location for the SCC api.  Values are "us" or "eu".
+      description: Endpoint location for the security and compliance api.  Values are "us", "eu" or "asap".
     - name: scope_id
       description: The unique ID of the scope.
     - name: profile_id
@@ -22,8 +24,6 @@ spec:
     - name: apikey
       description: IBM Cloud API Key.
 
-      
-
   steps:
     - name: scc-initiator
       image: $(params.tools-image)
@@ -31,6 +31,15 @@ spec:
       args:
         - |
           #!/bin/sh
+
+          # This task will trigger a security and compliance scan on IBM Cloud.  Scope and profiles can be configured manually in
+          # the IBM Cloud UI or via Terraform at and then this task can be used to trigger compliance scans automatically from a pipeline.
+          #
+          # The scope_id can be found by accessing scopes at https://cloud.ibm.com/security-compliance/scopes
+          # The profile_id can be found by accessing profiles at https://cloud.ibm.com/security-compliance/profiles
+          # The group_profile_id can be found in the documentation at https://cloud.ibm.com/apidocs/security-compliance/posture 
+          #
+          # Details about the security and compliance API can be found at https://cloud.ibm.com/apidocs/security-compliance/posture
 
           # Get access token for subsequent requests
           curl -s -o token.txt -X POST \
@@ -43,7 +52,7 @@ spec:
           IAM_TOKEN=$(jq ".access_token" -r token.txt)
 
           
-          # Get account id using the api key
+          # Get the account id using the api key
           curl -s -o details.txt \
             "https://iam.cloud.ibm.com/v1/apikeys/details" \
             -H "Authorization: Bearer ${IAM_TOKEN}"   \
@@ -63,7 +72,7 @@ spec:
           echo "PROFILE_ID: ${PROFILE_ID}"
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
 
-          # Trigger validation scan
+          # Trigger security & compliance validation scan
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
