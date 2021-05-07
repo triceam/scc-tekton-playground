@@ -52,7 +52,6 @@ spec:
 
           ACCOUNT_ID=$(jq ".account_id" -r details.txt)
 
-
           LOCATION="$(params.location)"
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
@@ -64,7 +63,7 @@ spec:
           echo "PROFILE_ID: ${PROFILE_ID}"
           echo "GROUP_PROFILE_ID: ${GROUP_PROFILE_ID}"
 
-
+          # Trigger validation scan
           printf "\nInitiating request to https://${LOCATION}.compliance.cloud.ibm.com/posture/v1/scans/validations?account_id=${ACCOUNT_ID}\n"
           
           STATUS=$(curl -s -o response.txt -w "%{http_code}" \
