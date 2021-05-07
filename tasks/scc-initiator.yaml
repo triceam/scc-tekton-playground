@@ -64,6 +64,10 @@ spec:
 
           ACCOUNT_ID=$(jq ".account_id" -r details.txt)
 
+
+          IAM_TOKEN="${IAM_TOKEN}"
+          IBM_CLOUD_APIKEY="${IBM_CLOUD_APIKEY}"
+
           LOCATION="$(params.location)"
           SCOPE_ID="$(params.scope_id)"
           PROFILE_ID="$(params.profile_id)"
